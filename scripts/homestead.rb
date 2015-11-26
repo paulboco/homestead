@@ -9,6 +9,9 @@ class Homestead
     # Prevent TTY Errors
     config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
 
+    # Allow SSH Agent Forward from The Box
+    config.ssh.forward_agent = true
+
     # Configure The Box
     config.vm.box = settings["box"] ||= "laravel/homestead"
     config.vm.hostname = settings["hostname"] ||= "homestead"
@@ -109,11 +112,11 @@ class Homestead
         mount_opts = []
 
         if (folder["type"] == "nfs")
-            mount_opts = folder["mount_opts"] ? folder["mount_opts"] : ['actimeo=1']
+            mount_opts = folder["mount_options"] ? folder["mount_options"] : ['actimeo=1']
         end
 
         # For b/w compatibility keep separate 'mount_opts', but merge with options
-        options = (folder["options"] || {}).merge({ mount_opts: mount_opts })
+        options = (folder["options"] || {}).merge({ mount_options: mount_opts })
 
         # Double-splat (**) operator only works with symbol keys, so convert
         options.keys.each{|k| options[k.to_sym] = options.delete(k) }
