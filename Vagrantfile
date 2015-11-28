@@ -12,6 +12,9 @@ aliasesPath = confDir + "/aliases"
 require File.expand_path(File.dirname(__FILE__) + '/scripts/homestead.rb')
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+    # To avoid install and uninstall VBoxGuessAdditions during vagrant provisioning.
+    config.vbguest.auto_update = false
+
     if File.exists? aliasesPath then
         config.vm.provision "file", source: aliasesPath, destination: "~/.bash_aliases"
     end
