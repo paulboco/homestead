@@ -26,6 +26,7 @@ block="server {
 
     location / {
         try_files \$uri \$uri/ /index.php?\$query_string;
+        autoindex on;
     }
 
     location = /favicon.ico { access_log off; log_not_found off; }
@@ -47,7 +48,7 @@ block="server {
 
         # Added to force clearing of opcache
         fastcgi_param REALPATH \$realpath_root;
-        
+
         fastcgi_intercept_errors off;
         fastcgi_buffer_size 16k;
         fastcgi_buffers 4 16k;
